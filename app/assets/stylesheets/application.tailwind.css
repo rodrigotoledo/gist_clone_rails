@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.menu-items{
+  @apply block px-4 py-2 text-sm text-white font-brand font-regular
+}
+
+.menu-items:hover{
+  @apply hover:text-emDark-light
+}

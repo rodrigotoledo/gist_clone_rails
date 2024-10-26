@@ -1,0 +1,68 @@
+<header class="flex justify-between items-center px-6 py-3 bg-[#151b23F2]">
+  <div class="w-full">
+    <div class="flex flex-row space-x-40">
+      <%=link_to root_path do %>
+        <%=image_tag "gist-logo.svg", alt: "Logo", class: "h-8 w-auto" %>
+      <% end %>
+      <%=link_to root_path do %>
+        <div class="text-white font-brand font-bold text-3xl">GistClone</div>
+      <% end %>
+      <% if authenticated? %>
+        <%=text_field_tag :search, '',
+          class: "h-8 rounded-l-lg focus:outline-none focus:border-gray-200 focus:ring-0 px-3 py-1 bg-emDark-dark placeholder-emDark-light text-white font-brand font-regular text-sm border-gray-400 border-r-0",
+          placeholder: "Search..." %>
+        <button 
+          type="button" 
+          alt="Search Gists"
+          class="h-8 bg-[#212830] text-white px-3 py-1 rounded-r-lg border border-gray-400 focus:outline-none focus:border-gray-200 mr-4"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19a8 8 0 100-16 8 8 0 000 16zm10 10l-3-3" />
+          </svg>
+        </button>
+      <% else %>
+        <div class="flex justify-between flex-1">
+          <div>
+            <%=text_field_tag :search, '',
+            class: "h-8 rounded-lg focus:outline-none focus:border-gray-200 focus:ring-0 px-3 py-1 bg-emDark-dark placeholder-emDark-light text-white font-brand font-regular text-sm border-gray-400",
+            placeholder: "Search..." %>
+            <button class="mr-2 text-white text-[1rem] font-brand font-bold hover:text-emDark-light">All gist</button>
+            <button class="mr-2 text-white text-[1rem] font-brand font-bold hover:text-emDark-light">Back to GistClone</button>
+          </div>
+
+          <div>
+            <%=link_to 'Sign In', new_session_path, class: "menu-items border-b border-white border-opacity-50", role: "menuitem", tabindex: "-1" %>
+            <%=link_to 'Register', new_session_path, class: "menu-items", role: "menuitem", tabindex: "-1" %>
+          </div>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
+  <div class="relative">
+    <div id="dropdown_menu"
+      phx-click-away={GistCloneWeb.Layouts.App.toggle_dropdown_menu()}
+      class="dropdown-menu-arrow absolute right-0 mt-2 py-2 w-48 bg-emDark rounded-lg shadow-xl border border-white" hidden="true">
+      <% if authenticated? %>
+        <button class="img-down-arrow" id="user-menu-button" phx-click={GistCloneWeb.Layouts.App.toggle_dropdown_menu()}>
+          <img src="/images/user-image.svg" alt="User Profile" class="rounded-full border-white border-[1.5px] p-[4px] w-8 h-8" />
+        </button>
+        <.link href={~p"/users/settings"} class="menu-items border-b border-white border-opacity-50" role="menuitem" tabindex="-1"  method="get" id="user-menu-item-0">
+        Sign in as <%=Current.session.email %>
+        </.link>
+        <.link href="#" class="menu-items" role="menuitem" tabindex="-1"  method="get" id="user-menu-item-1">
+        Your gists
+        </.link>
+        <.link href="#" class="menu-items border-b border-white border-opacity-50" role="menuitem" tabindex="-1"  method="get" id="user-menu-item-2">
+        Saved gists
+        </.link>
+        <.link href={~p"/users/log_out"} class="menu-items" role="menuitem" tabindex="-1"  method="delete" id="user-menu-item-3">
+        Sign out
+        </.link>
+      <% else %>
+        <%=link_to 'Sign In', new_session_path, class: "menu-items border-b border-white border-opacity-50", role: "menuitem", tabindex: "-1" %>
+        <%=link_to 'Register', new_session_path, class: "menu-items", role: "menuitem", tabindex: "-1" %>
+      <% end %>
+    </div>
+  </div>
+</header>
