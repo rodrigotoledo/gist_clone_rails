@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  namespace :api do
+    post "sign-up", to: "registrations#create", as: :sign_up
+    post "sign-in", to: "sessions#create", as: :sign_in
+    delete "sign-out", to: "sessions#destroy", as: :sign_out
+  end
   root "home#index"
   resource :session
   resources :passwords, param: :token
