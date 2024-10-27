@@ -32,8 +32,7 @@ module Api::Authentication
 
     begin
       user_id = decoded_token_info.first["user_id"]
-      user = User.find_by(id: user_id)
-      Current.user ||= user
+      User.find_by(id: user_id)
     rescue => e
       logger.info e.message
       head :unauthorized
@@ -45,13 +44,11 @@ module Api::Authentication
   end
 
   def login(user)
-    Current.user = user
     reset_session
     encode_token({ user_id: user.id })
   end
 
   def logout(user)
-    Current.user = nil
     encode_token({ user_id: Faker::Internet.password })
     reset_session
   end
